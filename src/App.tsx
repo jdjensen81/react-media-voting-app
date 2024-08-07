@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import './App.css'; // We'll create this file for our CSS
 
 // Types
 type MediaType = 'audio' | 'video';
@@ -8,6 +9,7 @@ interface MediaItem {
   id: string;
   type: MediaType;
   url: string;
+  thumbnailUrl: string;
   tags: string[];
   votes: number;
 }
@@ -20,8 +22,8 @@ interface User {
 
 // Mock data (replace with actual API calls in a real application)
 const mockMediaItems: MediaItem[] = [
-  { id: '1', type: 'audio', url: 'audio1.mp3', tags: ['music', 'rock'], votes: 0 },
-  { id: '2', type: 'video', url: 'video1.mp4', tags: ['movie', 'action'], votes: 0 },
+  { id: '1', type: 'audio', url: 'audio1.mp3', thumbnailUrl: '/api/placeholder/300/200', tags: ['music', 'rock'], votes: 0 },
+  { id: '2', type: 'video', url: 'video1.mp4', thumbnailUrl: '/api/placeholder/300/200', tags: ['movie', 'action'], votes: 0 },
 ];
 
 const mockUser: User = { id: '1', username: 'testuser', isAdmin: true };
@@ -41,21 +43,31 @@ const AdminPanel: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Admin Panel</h2>
-      {mediaItems.map(item => (
-        <div key={item.id}>
-          <p>{item.type}: {item.url}</p>
-          <p>Tags: {item.tags.join(', ')}</p>
-          <input
-            type="text"
-            value={newTag}
-            onChange={(e) => setNewTag(e.target.value)}
-            placeholder="New tag"
-          />
-          <button onClick={() => addTag(item.id)}>Add Tag</button>
-        </div>
-      ))}
+      <div className="media-grid">
+        {mediaItems.map(item => (
+          <div key={item.id} className="media-card">
+            <h3>{item.type === 'audio' ? 'Audio' : 'Video'}</h3>
+            <img src={item.thumbnailUrl} alt={`Thumbnail for ${item.type}`} className="thumbnail" />
+            <p>{item.url}</p>
+            <div className="tags">
+              {item.tags.map(tag => (
+                <span key={tag} className="tag">{tag}</span>
+              ))}
+            </div>
+            <div className="tag-input">
+              <input
+                type="text"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                placeholder="New tag"
+              />
+              <button onClick={() => addTag(item.id)}>Add Tag</button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
@@ -72,22 +84,35 @@ const VotingPanel: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Voting Panel</h2>
-      {mediaItems.map(item => (
-        <div key={item.id}>
-          <p>{item.type}: {item.url}</p>
-          <p>Tags: {item.tags.join(', ')}</p>
-          <p>Votes: {item.votes}</p>
-          <button onClick={() => vote(item.id)}>Vote</button>
-        </div>
-      ))}
+      <div className="media-grid">
+        {mediaItems.map(item => (
+          <div key={item.id} className="media-card">
+            <h3>{item.type === 'audio' ? 'Audio' : 'Video'}</h3>
+            <img src={item.thumbnailUrl} alt={`Thumbnail for ${item.type}`} className="thumbnail" />
+            <p>{item.url}</p>
+            <div className="tags">
+              {item.tags.map(tag => (
+                <span key={tag} className="tag">{tag}</span>
+              ))}
+            </div>
+            <p>Votes: {item.votes}</p>
+            <button onClick={() => vote(item.id)}>Vote</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
 const Home: React.FC = () => {
-  return <h1>Welcome to Media Voting App</h1>;
+  return (
+    <div className="container">
+      <h1>Welcome to Media Voting App</h1>
+      <p>Explore and vote for your favorite audio and video content!</p>
+    </div>
+  );
 };
 
 const App: React.FC = () => {
@@ -100,7 +125,7 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <div>
+      <div className="app">
         <nav>
           <ul>
             <li><Link to="/">Home</Link></li>
@@ -109,11 +134,13 @@ const App: React.FC = () => {
           </ul>
         </nav>
 
-        <Routes>
-          <Route path="/admin" element={user?.isAdmin ? <AdminPanel /> : <p>Access denied</p>} />
-          <Route path="/vote" element={<VotingPanel />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/admin" element={user?.isAdmin ? <AdminPanel /> : <p>Access denied</p>} />
+            <Route path="/vote" element={<VotingPanel />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   );
