@@ -106,14 +106,6 @@ const VotingPanel: React.FC = () => {
   );
 };
 
-const Home: React.FC = () => {
-  return (
-    <div className="container">
-      <h1>Welcome to Media Voting App</h1>
-      <p>Explore and vote for your favorite audio and video content!</p>
-    </div>
-  );
-};
 
 const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -126,19 +118,20 @@ const App: React.FC = () => {
   return (
     <Router>
       <div className="app">
+        <h1>Media Voting App</h1>
+        {user?.isAdmin &&
         <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
+          <ul>            
             {user?.isAdmin && <li><Link to="/admin">Admin</Link></li>}
             <li><Link to="/vote">Vote</Link></li>
           </ul>
-        </nav>
+        </nav>}
 
         <main>
           <Routes>
             <Route path="/admin" element={user?.isAdmin ? <AdminPanel /> : <p>Access denied</p>} />
             <Route path="/vote" element={<VotingPanel />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={user?.isAdmin ? <AdminPanel /> : <VotingPanel/>} />
           </Routes>
         </main>
       </div>
