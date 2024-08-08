@@ -71,3 +71,7 @@ If you find any issues or have suggestions for improvements, please feel free to
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## AI Generated Code Log
+
+Since I used Anthropic's Claude 3 Haiku model to generate most of this code and documentation, I thought it would be helpful to include a log of the prompts and outputs. See [ClaudeLog.md](https://github.com/jdjensen81/react-media-voting-app/blob/main/ClaudeLog.md).

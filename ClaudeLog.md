@@ -1029,5 +1029,10 @@ Now, when you click the "Switch to Voter" or "Switch to Admin" button, the appli
 Let me know if you have any other questions or if you'd like me to explain any part of the code further!
 
 > please write the documentation for the README.md I will put on GitHub.
-... *first attempt did not mention Vite*
+... 
+
+*first attempt did not mention Vite*
+
 > that's great, but do I need to mention Vite?  Does that change anything?
+
+*README.md was updated to mention Vite and it changed the localhost port. I didn't feel the need to include that here since it is already available on GitHub.*
