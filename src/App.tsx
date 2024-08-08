@@ -26,9 +26,49 @@ const mockMediaItems: MediaItem[] = [
   { id: '2', type: 'video', url: 'video1.mp4', thumbnailUrl: 'https://imgur.com/znQRtsC.png', tags: ['movie', 'action'], votes: 0 },
 ];
 
-const mockUser: User = { id: '1', username: 'testuser', isAdmin: true };
+const mockUsers: User[] = [
+  { id: '1', username: 'testadmin', isAdmin: true },
+  { id: '2', username: 'testvoter', isAdmin: false },
+];
 
-// Components
+const App: React.FC = () => {
+  const [user, setUser] = useState<User | null>(null);
+  const [userIndex, setUserIndex] = useState<number>(0);
+
+  useEffect(() => {
+    // Simulating user authentication
+    setUser(mockUsers[userIndex]);
+  }, [userIndex]);
+
+  const toggleUser = () => {
+    setUserIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
+  };
+
+  return (
+    <Router>
+      <div className="app">
+        <h1>Media Voting App</h1>
+        <nav>
+          <ul>
+            {user?.isAdmin && <li><Link to="/admin">Admin</Link></li>}
+            <li><Link to="/vote">Vote</Link></li>
+          </ul>
+        </nav>
+        <button onClick={toggleUser}>
+          {user?.isAdmin ? 'Switch to Voter' : 'Switch to Admin'}
+        </button>
+        <main>
+          <Routes>
+            <Route path="/admin" element={user?.isAdmin ? <AdminPanel /> : <p>Access denied</p>} />
+            <Route path="/vote" element={<VotingPanel />} />
+            <Route path="/" element={user?.isAdmin ? <AdminPanel /> : <VotingPanel />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
+};
+
 const AdminPanel: React.FC = () => {
   const [mediaItems, setMediaItems] = useState<MediaItem[]>(mockMediaItems);
   const [newTag, setNewTag] = useState<string>('');
@@ -103,39 +143,6 @@ const VotingPanel: React.FC = () => {
         ))}
       </div>
     </div>
-  );
-};
-
-
-const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    // Simulating user authentication
-    setUser(mockUser);
-  }, []);
-
-  return (
-    <Router>
-      <div className="app">
-        <h1>Media Voting App</h1>
-        {user?.isAdmin &&
-        <nav>
-          <ul>            
-            {user?.isAdmin && <li><Link to="/admin">Admin</Link></li>}
-            <li><Link to="/vote">Vote</Link></li>
-          </ul>
-        </nav>}
-
-        <main>
-          <Routes>
-            <Route path="/admin" element={user?.isAdmin ? <AdminPanel /> : <p>Access denied</p>} />
-            <Route path="/vote" element={<VotingPanel />} />
-            <Route path="/" element={user?.isAdmin ? <AdminPanel /> : <VotingPanel/>} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
   );
 };
 
