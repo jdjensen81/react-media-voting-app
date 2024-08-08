@@ -22,8 +22,8 @@ interface User {
 
 // Mock data (replace with actual API calls in a real application)
 const mockMediaItems: MediaItem[] = [
-  { id: '1', type: 'audio', url: 'audio1.mp3', thumbnailUrl: '/api/placeholder/300/200', tags: ['music', 'rock'], votes: 0 },
-  { id: '2', type: 'video', url: 'video1.mp4', thumbnailUrl: '/api/placeholder/300/200', tags: ['movie', 'action'], votes: 0 },
+  { id: '1', type: 'audio', url: 'audio1.mp3', thumbnailUrl: 'https://imgur.com/4hk9L2f.png', tags: ['music', 'rock'], votes: 0 },
+  { id: '2', type: 'video', url: 'video1.mp4', thumbnailUrl: 'https://imgur.com/znQRtsC.png', tags: ['movie', 'action'], votes: 0 },
 ];
 
 const mockUser: User = { id: '1', username: 'testuser', isAdmin: true };
