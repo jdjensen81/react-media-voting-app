@@ -44,7 +44,7 @@ const AdminPanel: React.FC = () => {
 
   return (
     <div className="container">
-      <h2>Admin Panel</h2>
+      <h2>Admin</h2>
       <div className="media-grid">
         {mediaItems.map(item => (
           <div key={item.id} className="media-card">
@@ -85,7 +85,7 @@ const VotingPanel: React.FC = () => {
 
   return (
     <div className="container">
-      <h2>Voting Panel</h2>
+      <h2>Vote</h2>
       <div className="media-grid">
         {mediaItems.map(item => (
           <div key={item.id} className="media-card">
@@ -129,8 +129,8 @@ const App: React.FC = () => {
         <nav>
           <ul>
             <li><Link to="/">Home</Link></li>
-            {user?.isAdmin && <li><Link to="/admin">Admin Panel</Link></li>}
-            <li><Link to="/vote">Voting Panel</Link></li>
+            {user?.isAdmin && <li><Link to="/admin">Admin</Link></li>}
+            <li><Link to="/vote">Vote</Link></li>
           </ul>
         </nav>
 
